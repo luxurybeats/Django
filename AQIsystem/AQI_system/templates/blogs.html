@@ -1,0 +1,61 @@
+﻿{% extends '__base__.html' %}
+
+{% block title %}成都空气质量分析系统{% endblock %}
+
+{% block beforehead %}
+
+<script>
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="uk-width-medium-3-4">
+    {% for daytimedata in daytimedatas %}
+        <article class="uk-article">
+            <h2><a href="/blog/{{ blog.id }}">{{ daytimedata.Time}}</a></h2>
+            <p class="uk-article-meta">空气质量指数：{{ daytimedata.AQI}}</p>
+            <p>{% if daytimedata.Primary %}
+                主要污染物：{{ daytimedata.Primary }}
+                {% elif  daytimedata.Primary == "" and daytimedata.AQI == ""%}
+                NULL
+                {% else %}
+                优
+            {% endif %}</p>
+            <p><a href="/datadetails/{{ daytimedata.id }}">查看地区详情 <i class="uk-icon-angle-double-right"></i></a></p>
+        </article>
+        <hr class="uk-article-divider">
+    {% endfor %}
+        <ul class="uk-pagination">
+        <li><a href="/?page=1"><i class="uk-icon-angle-double-left"></i></a></li>
+         {% if daytimedatas.has_previous %}
+            <li><a href="/?page={{ daytimedatas.previous_page_number}}"><i class="uk-icon-angle-left"></i></a></li>
+
+        {% else %}
+            <li class="uk-disabled"><span><i class="uk-icon-angle-left"></i></span></li>
+        {% endif %}
+            <li class="uk-active"><span>{{ daytimedatas.number }}</span></li>
+        {% if daytimedatas.has_next %}
+            <li><a href="/?page={{ daytimedatas.next_page_number }}"><i class="uk-icon-angle-right"></i></a></li>
+        {% else %}
+            <li class="uk-disabled"><span><i class="uk-icon-angle-right"></i></span></li>
+        {% endif %}
+         <li><a href="/?page={{ daytimedatas.paginator.num_pages }}"><i class="uk-icon-angle-double-right"></i></a></li>
+        </ul>
+
+    </div>
+
+    <div class="uk-width-medium-1-4">
+        <div class="uk-panel uk-panel-header">
+            <h3 class="uk-panel-title">友情链接</h3>
+            <ul class="uk-list uk-list-line">
+                <li><i class="uk-icon-thumbs-o-up"></i> <a target="_blank" href="http://www.cdepb.gov.cn/cdepbws/web/gov/airquality.aspx">成都空气质量-成都市环保局</a></li>
+                <li><i class="uk-icon-thumbs-o-up"></i> <a target="_blank" href="http://www.cdtq.gov.cn/">成都天气网</a></li>
+                <li><i class="uk-icon-thumbs-o-up"></i> <a target="_blank" href="http://www.cdmb.gov.cn/">成都市气象局</a></li>
+
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}
