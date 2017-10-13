@@ -1,0 +1,5 @@
+*.py[cod]
+*.js
+*.css
+dist
+build
